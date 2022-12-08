@@ -1,0 +1,27 @@
+.resize-panel {
+  height: 100%;
+  display: flex;
+
+  .resize-panel-left {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    overflow: hidden;
+  }
+
+  .resize-panel-right {
+    position: relative;
+    border-left: 1px solid #eee;
+    box-shadow: 0 0 6px #9a9a9a;
+  }
+
+  .resize-panel-drag-line {
+    transition: all 0.5s;
+
+    &:hover,
+    &:focus {
+      background-color: #026ffec5;
+    }
+  }
+}

@@ -1,29 +1,27 @@
 // @ts-ignore
+import { useSize } from 'ahooks';
 import { Resizable } from 're-resizable';
 import React, { ReactNode, useContext, useRef, useState } from 'react';
 import { ConfigContext } from '../../context/config-context';
 import './index.less';
 
-export interface IResizePanelProps {
+export interface ResizePanelProps {
   left: ReactNode;
   right: ReactNode;
 }
 
-export const ResizePanel: React.FC<IResizePanelProps> = ({ left, right }) => {
+export const ResizePanel: React.FC<ResizePanelProps> = ({ left, right }) => {
   const { rightWidthRange } = useContext(ConfigContext);
   const resizePanel = useRef<HTMLDivElement>(null);
   const [rightWidth, setRightWidth] = useState(50);
-  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
   const [minRightWidth, maxRightWidth] = rightWidthRange;
+  const { width: containerWidth = 0 } = useSize(resizePanel.current) ?? {};
 
   const onResize = (event: Event) => {
-    const {
-      width = 0,
-      left = 0,
-      height = 0,
-    } = resizePanel.current?.getBoundingClientRect() ?? {};
+    const { left = 0 } = resizePanel.current?.getBoundingClientRect() ?? {};
 
-    let rightWidth = 100 * (1 - ((event as MouseEvent).clientX - left) / width);
+    let rightWidth =
+      100 * (1 - ((event as MouseEvent).clientX - left) / containerWidth);
     if (rightWidth < minRightWidth) {
       rightWidth = minRightWidth;
     }
@@ -31,10 +29,6 @@ export const ResizePanel: React.FC<IResizePanelProps> = ({ left, right }) => {
       rightWidth = maxRightWidth;
     }
     setRightWidth(rightWidth);
-    setContainerSize({
-      width,
-      height,
-    });
   };
 
   return (
@@ -56,8 +50,8 @@ export const ResizePanel: React.FC<IResizePanelProps> = ({ left, right }) => {
           width: `${rightWidth}%`,
           height: '100%',
         }}
-        minWidth={`${(minRightWidth / 100) * containerSize.width}px`}
-        maxWidth={`${(maxRightWidth / 100) * containerSize.width}px`}
+        minWidth={`${(minRightWidth / 100) * containerWidth}px`}
+        maxWidth={`${(maxRightWidth / 100) * containerWidth}px`}
         className="resize-panel-right"
         handleClasses={{
           left: 'resize-panel-drag-line',

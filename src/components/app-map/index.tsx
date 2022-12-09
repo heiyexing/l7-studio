@@ -1,17 +1,17 @@
-import { LarkMap, LarkMapProps } from '@antv/larkmap';
-import React, { ReactNode } from 'react';
+import { LarkMap } from '@antv/larkmap';
+import React, { ReactNode, useContext } from 'react';
+import { ConfigContext } from '../../context/config-context';
 
-export interface IAppMapProps {
+export interface AppMapProps {
   children?: ReactNode;
 }
-const config: LarkMapProps = {
-  mapType: 'Gaode',
-  mapOptions: {
-    style: 'light',
-    center: [120.210792, 30.246026],
-    zoom: 10,
-  },
-};
-export const AppMap: React.FC<IAppMapProps> = ({ children }) => {
-  return <LarkMap {...config}>{children}</LarkMap>;
+
+export const AppMap: React.FC<AppMapProps> = ({ children }) => {
+  const { mapOptions } = useContext(ConfigContext);
+
+  return (
+    <LarkMap {...mapOptions} style={{ height: '100%' }}>
+      {children}
+    </LarkMap>
+  );
 };

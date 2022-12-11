@@ -1,8 +1,8 @@
-.resize-panel {
+.l7-studio____resize-panel {
   height: 100%;
   display: flex;
 
-  .resize-panel-left {
+  &-left {
     position: absolute;
     left: 0;
     top: 0;
@@ -10,13 +10,13 @@
     overflow: hidden;
   }
 
-  .resize-panel-right {
+  &-right {
     position: relative;
     border-left: 1px solid #eee;
     box-shadow: 0 0 6px #9a9a9a;
   }
 
-  .resize-panel-drag-line {
+  &-drag-line {
     transition: all 0.5s;
 
     &:hover,

@@ -14,8 +14,7 @@
     "dev": "dumi dev",
     "docs:build": "dumi build",
     "doctor": "father doctor",
-    "lint": "npm run lint:es && npm run lint:css",
-    "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
+    "lint": "npm run lint:es",
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "husky install && dumi setup",
     "prepublishOnly": "father doctor && npm run build",
@@ -31,7 +30,6 @@
       "prettier --write --no-error-on-unmatched-pattern"
     ],
     "*.{css,less}": [
-      "stylelint --fix",
       "prettier --write"
     ],
     "*.{js,jsx}": [
@@ -46,15 +44,27 @@
   "dependencies": {
     "@antv/l7": "^2.11.6",
     "@antv/larkmap": "^1.0.0",
+    "@turf/turf": "^6.5.0",
     "ahooks": "^3.7.2",
     "antd": "^4.24.5",
     "classnames": "^2.3.2",
-    "re-resizable": "^6.9.9"
+    "color": "^4.2.3",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "monaco-editor": "^0.34.1",
+    "monaco-editor-webpack-plugin": "^7.0.1",
+    "re-resizable": "^6.9.9",
+    "react-color": "^2.19.3",
+    "react-monaco-editor": "^0.51.0",
+    "variable-type": "^1.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@types/classnames": "^2.3.1",
+    "@types/color": "^3.0.3",
+    "@types/lodash": "^4.14.191",
+    "@types/react-color": "^3.0.6",
     "@umijs/lint": "^4.0.0",
     "dumi": "^2.0.2",
     "eslint": "8.22.0",

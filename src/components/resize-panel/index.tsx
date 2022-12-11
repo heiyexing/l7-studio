@@ -1,8 +1,8 @@
 // @ts-ignore
 import { useSize } from 'ahooks';
 import { Resizable } from 're-resizable';
-import React, { ReactNode, useContext, useRef, useState } from 'react';
-import { ConfigContext } from '../../context/config-context';
+import React, { ReactNode, useRef, useState } from 'react';
+import { useConfig } from '../../hooks';
 import './index.less';
 
 export interface ResizePanelProps {
@@ -11,7 +11,7 @@ export interface ResizePanelProps {
 }
 
 export const ResizePanel: React.FC<ResizePanelProps> = ({ left, right }) => {
-  const { rightWidthRange } = useContext(ConfigContext);
+  const { rightWidthRange } = useConfig();
   const resizePanel = useRef<HTMLDivElement>(null);
   const [rightWidth, setRightWidth] = useState(50);
   const [minRightWidth, maxRightWidth] = rightWidthRange;
@@ -32,9 +32,9 @@ export const ResizePanel: React.FC<ResizePanelProps> = ({ left, right }) => {
   };
 
   return (
-    <div className="resize-panel" ref={resizePanel}>
+    <div className="l7-studio____resize-panel" ref={resizePanel}>
       <div
-        className="resize-panel-left"
+        className="l7-studio____resize-panel-left"
         style={{ width: `calc(100% - ${rightWidth}%)` }}
       >
         {left}
@@ -52,9 +52,9 @@ export const ResizePanel: React.FC<ResizePanelProps> = ({ left, right }) => {
         }}
         minWidth={`${(minRightWidth / 100) * containerWidth}px`}
         maxWidth={`${(maxRightWidth / 100) * containerWidth}px`}
-        className="resize-panel-right"
+        className="l7-studio____resize-panel-right"
         handleClasses={{
-          left: 'resize-panel-drag-line',
+          left: 'l7-studio____resize-panel-drag-line',
         }}
         handleStyles={{
           left: { width: 6, left: -3 },

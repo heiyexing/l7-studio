@@ -7,6 +7,7 @@ import {
   ZoomControl,
 } from '@antv/larkmap';
 import React from 'react';
+import { downloadImage } from '../../utils';
 
 export const MapControlGroup: React.FC = () => {
   return (
@@ -14,7 +15,7 @@ export const MapControlGroup: React.FC = () => {
       <ZoomControl />
       <ScaleControl />
       <FullscreenControl />
-      <ExportImageControl />
+      <ExportImageControl imageType="png" onExport={downloadImage} />
       <MouseLocationControl />
       <MapThemeControl />
       {/* TODO: 需要添加对应图层示例 */}

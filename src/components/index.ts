@@ -1,5 +1,6 @@
 export * from './app-editor';
 export * from './app-map';
+export * from './draw-control';
 export * from './layer-color-control';
 export * from './layer-list';
 export * from './map-content';

@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import React, { useState, type FC } from 'react';
 import {
   AppMap,
+  DrawControl,
   LayerColorControl,
   LayerList,
   MapContent,
@@ -24,7 +25,9 @@ export const L7Studio: FC<L7StudioProps> = ({ className, style }) => {
       <ResizePanel
         left={
           <AppMap>
-            <MapControlGroup />
+            <MapControlGroup>
+              <DrawControl />
+            </MapControlGroup>
             <LayerList fc={fc} layerColor={layerColor} />
             <LayerColorControl
               layerColor={layerColor}

@@ -123,7 +123,9 @@ export const MapContent: React.FC<MapContentProps> = ({ fc, setFc }) => {
               },
             }}
           >
-            <Button icon={inputType === 'GeoJson' ? 'G' : 'L'}></Button>
+            <Tooltip trigger="hover" placement="left" overlay="输入方式">
+              <Button icon={inputType === 'GeoJson' ? 'G' : 'L'}></Button>
+            </Tooltip>
           </Dropdown>
 
           {inputType === 'LngLat' && (
@@ -137,7 +139,11 @@ export const MapContent: React.FC<MapContentProps> = ({ fc, setFc }) => {
                 },
               }}
             >
-              <Tooltip trigger="hover" placement="left" overlay="解析方式">
+              <Tooltip
+                trigger="hover"
+                placement="left"
+                overlay="LngLat 解析方式"
+              >
                 <Button icon={<AppstoreOutlined />}></Button>
               </Tooltip>
             </Dropdown>

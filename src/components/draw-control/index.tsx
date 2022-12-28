@@ -1,4 +1,4 @@
-import { DrawControl as L7DrawControl, DrawEvent } from '@antv/l7-draw';
+import { ControlEvent, DrawControl as L7DrawControl } from '@antv/l7-draw';
 import { useScene } from '@antv/larkmap';
 import React, { useCallback, useEffect, useState } from 'react';
 
@@ -9,7 +9,9 @@ export const DrawControl: React.FC = () => {
   const onDrawCreate = useCallback(() => {}, []);
 
   useEffect(() => {
-    drawControl?.on(DrawEvent.Add, () => {});
+    drawControl?.on(ControlEvent.DataChange, (data) => {
+      console.log(data);
+    });
     return () => {};
   }, [drawControl, onDrawCreate]);
 
@@ -23,6 +25,9 @@ export const DrawControl: React.FC = () => {
         rect: true,
         circle: true,
         clear: false,
+      },
+      commonDrawOptions: {
+        autoActive: false,
       },
     });
     setDrawControl(control);

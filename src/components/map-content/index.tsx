@@ -4,17 +4,18 @@ import {
   DingdingOutlined,
   SaveOutlined,
 } from '@ant-design/icons';
-import { featureCollection, FeatureCollection } from '@turf/turf';
-import { useKeyPress, useUpdateEffect } from 'ahooks';
+import { Feature, featureCollection, FeatureCollection } from '@turf/turf';
+import { useKeyPress, useTrackedEffect, useUpdateEffect } from 'ahooks';
 import { Button, Dropdown, MenuProps, Popover, Tooltip } from 'antd';
 import {
   downloadText,
   transformGeoJson,
   transformLngLat,
 } from 'l7-studio/utils';
+import { pull } from 'lodash';
 import React, { useMemo, useState } from 'react';
 import { AppEditor } from '../../components';
-import { dingdingGroupImg } from '../../constants';
+import { dingdingGroupImg, DrawIdKeyName } from '../../constants';
 import { useConfig } from '../../hooks';
 import { InputType, TransformLngLatType } from '../../types';
 import './index.less';
@@ -100,13 +101,33 @@ export const MapContent: React.FC<MapContentProps> = ({ fc, setFc }) => {
     doSave();
   }, [transformLngLatType]);
 
-  useKeyPress('ctrl.s', (e) => {
+  useKeyPress(['ctrl.s', 'meta.s'], (e) => {
     e.preventDefault();
     if (!savable) {
       return;
     }
     onSave();
   });
+
+  useTrackedEffect(
+    (_, previousDeps, currentDeps) => {
+      if (inputType === 'GeoJson') {
+        const oldFeatureList = (previousDeps?.[0] ?? []) as Feature[];
+        const newFeatureList = (currentDeps?.[0] ?? []) as Feature[];
+        const newDrawFeatureList = pull(
+          [...newFeatureList],
+          ...oldFeatureList,
+        ).filter((item) => {
+          const drawId = item.properties?.[DrawIdKeyName];
+          return !!drawId && !text.includes(drawId);
+        });
+        if (newDrawFeatureList.length) {
+          setText(JSON.stringify(featureCollection(newFeatureList), null, 2));
+        }
+      }
+    },
+    [fc.features],
+  );
 
   return (
     <div className="l7-studio____map-content">

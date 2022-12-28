@@ -26,7 +26,7 @@ export const L7Studio: FC<L7StudioProps> = ({ className, style }) => {
         left={
           <AppMap>
             <MapControlGroup>
-              <DrawControl />
+              <DrawControl setFc={setFc} />
             </MapControlGroup>
             <LayerList fc={fc} layerColor={layerColor} />
             <LayerColorControl

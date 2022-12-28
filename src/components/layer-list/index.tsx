@@ -28,7 +28,6 @@ export const LayerList: React.FC<LayerListProps> = ({ fc, layerColor }) => {
   return (
     <>
       <PolygonLayer
-        autoFit
         source={{ data: polygonFC }}
         shape="fill"
         color={getOpacityColor(layerColor, 0.5)}
@@ -39,14 +38,8 @@ export const LayerList: React.FC<LayerListProps> = ({ fc, layerColor }) => {
         color={layerColor}
         size={2}
       />
-      <LineLayer
-        autoFit
-        source={{ data: lineFC }}
-        color={layerColor}
-        size={2}
-      />
+      <LineLayer source={{ data: lineFC }} color={layerColor} size={2} />
       <PointLayer
-        autoFit
         source={{ data: pointFC }}
         color="#fff"
         size={8}

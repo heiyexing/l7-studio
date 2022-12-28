@@ -1,19 +1,49 @@
-import { ControlEvent, DrawControl as L7DrawControl } from '@antv/l7-draw';
+import { DrawControl as L7DrawControl, DrawEvent } from '@antv/l7-draw';
 import { useScene } from '@antv/larkmap';
-import React, { useCallback, useEffect, useState } from 'react';
+import { Feature, featureCollection, FeatureCollection } from '@turf/turf';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { DrawIdKeyName } from '../../constants';
 
-export const DrawControl: React.FC = () => {
+interface IProps {
+  setFc: Dispatch<SetStateAction<FeatureCollection>>;
+}
+
+export const DrawControl: React.FC<IProps> = ({ setFc }) => {
   const [drawControl, setDrawControl] = useState<L7DrawControl>();
   const scene = useScene();
-
-  const onDrawCreate = useCallback(() => {}, []);
+  const drawList = useMemo(
+    () => [
+      drawControl?.getTypeDraw('point'),
+      drawControl?.getTypeDraw('line'),
+      drawControl?.getTypeDraw('polygon'),
+      drawControl?.getTypeDraw('rect'),
+      drawControl?.getTypeDraw('circle'),
+    ],
+    [drawControl],
+  );
 
   useEffect(() => {
-    drawControl?.on(ControlEvent.DataChange, (data) => {
-      console.log(data);
+    drawList.forEach((draw) => {
+      draw?.on(DrawEvent.Add, (newFeature: Feature) => {
+        draw?.clear();
+        setFc((oldFeatureCollection) => {
+          newFeature.properties = {
+            [DrawIdKeyName]: Date.now(),
+          };
+          return featureCollection([
+            ...oldFeatureCollection.features,
+            newFeature,
+          ]);
+        });
+      });
     });
-    return () => {};
-  }, [drawControl, onDrawCreate]);
+  }, [drawControl]);
 
   useEffect(() => {
     // @ts-ignore
@@ -28,6 +58,7 @@ export const DrawControl: React.FC = () => {
       },
       commonDrawOptions: {
         autoActive: false,
+        editable: false,
       },
     });
     setDrawControl(control);
